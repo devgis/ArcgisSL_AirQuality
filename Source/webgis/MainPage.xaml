@@ -1,0 +1,56 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:esri="http://schemas.esri.com/arcgis/client/2009" x:Class="webgis.MainPage"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <esri:Map x:Name="MyMap" WrapAround="True" Margin="19,0,-19,0" Grid.RowSpan="2" >
+            <esri:ArcGISDynamicMapServiceLayer ID="秦皇岛" Opacity="0.6" 
+                    Url="	http://localhost:6080/arcgis/rest/services/QHD2/MyMapService/MapServer"/>
+            <!--<esri:ArcGISDynamicMapServiceLayer ID="Sample" 
+                    Url="http://hzg/ArcGIS/rest/services/Demo/MapServer"/>-->
+        </esri:Map>
+
+        <Border Background="#77919191" BorderThickness="1" CornerRadius="5"
+            HorizontalAlignment="Right"  VerticalAlignment="Top"
+            Margin="0,20,20,0" Padding="5" BorderBrush="Black" Grid.RowSpan="2" >
+            <esri:Legend Map="{Binding ElementName=MyMap}"                         
+                         LayerItemsMode="Tree" ShowOnlyVisibleLayers="False" Height="218" Width="164">
+                <!--设置Lenged控件的图层模版-->
+                <esri:Legend.MapLayerTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <!--控制格图层的开关-->
+                            <CheckBox Content="{Binding Label}"
+            						IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+            						IsEnabled="{Binding IsInScaleRange}" >
+                            </CheckBox>
+                            <!--根控制图层透明度-->
+                            <Slider Maximum="1" Value="{Binding Layer.Opacity, Mode=TwoWay}" Width="50" />
+                        </StackPanel>
+                    </DataTemplate>
+                </esri:Legend.MapLayerTemplate>
+                <esri:Legend.LayerTemplate>
+                    <DataTemplate>
+                        <!--控制子图层的开关-->
+                        <CheckBox Content="{Binding Label}"
+            			    IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+            				IsEnabled="{Binding IsInScaleRange}" >
+                        </CheckBox>
+                    </DataTemplate>
+                </esri:Legend.LayerTemplate>
+
+            </esri:Legend>
+        </Border>
+        <TextBlock x:Name="textblock1" HorizontalAlignment="Left" Height="32" Margin="10,10,0,0" TextWrapping="Wrap" Text="秦皇岛市地图" VerticalAlignment="Top" Width="153" FontSize="24" Foreground="#FF151415" FontWeight="Bold" FontStyle="Italic"/>
+        <TextBlock x:Name="textblock2" HorizontalAlignment="Left" Height="24" Margin="0,47,0,0" TextWrapping="Wrap" Text="今日PM2.5平均值为35(良)" VerticalAlignment="Top" Width="326" Foreground="#FF1F1D1D" FontSize="20" FontWeight="Bold"/>
+    </Grid>
+</UserControl>
